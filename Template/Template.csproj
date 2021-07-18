@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ClientApp\TemplateSPA\Swagger" />
+    </ItemGroup>
+
+    <Target Name="CreateAngularClientServices" BeforeTargets="AfterBuild">
+        <Exec Command="dotnet swagger tofile --output ClientApp\TemplateSPA\Swagger\swagger.json ..\Template\bin\Debug\net5.0\Template.dll v1" />
+        <Exec Command="npm --prefix ../Template/ClientApp/TemplateSPA run generate-clients" />
+    </Target>
+
+</Project>
